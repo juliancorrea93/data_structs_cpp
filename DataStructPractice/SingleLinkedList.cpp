@@ -15,6 +15,7 @@ public:
 		head = NULL;
 		size = 0;
 	}
+	//insert at the end of the list
 	void append(T data) {
 		Node<T> *newnode = getNode(data);
 
@@ -30,6 +31,7 @@ public:
 		}
 		size += 1;
 	}
+	//insert at front of the list
 	void insert(T data) {
 		Node<T> *newnode = getNode(data);
 
@@ -44,6 +46,7 @@ public:
 		}
 		size += 1;
 	}
+	//insert at a certain location in the list. shift remaining nodes to the right
 	void insertAt(T data, int index) {
 		if (index < 0 || index > size + 1) {
 			cout << "Element cannot be inserted at this position as the location is invalid";
@@ -71,6 +74,7 @@ public:
 		}
 		
 	}
+	//print the list
 	void printList() {
 		Node<T> *temp = head;
 		if (head == NULL) {
@@ -84,6 +88,7 @@ public:
 			cout << endl;
 		}
 	}
+	//remove all nodes that match a value TODO: add support for user defined classes
 	void remove(T data) {
 		Node<T> *temp = head;
 		Node<T> *prev = NULL;
