@@ -1,141 +1,175 @@
 #include <iostream>
+//#include "..\cryptopp850\sha3.h"
+#include "Person.h"
+#include "SingleLinkedList.h"
 
-using namespace std;
+
+
+template<class T> SingleLinkedList<T>::SingleLinkedList() : 
+	head(nullptr),
+	size(0) {
+}
 
 template<class T>
-struct Node {
-	Node<T> *next;
-	T data;
-};
+void SingleLinkedList<T>::append(T data) {
+	Node<T>* newnode = getNode(data);
+	//Node<T>* newnode = new Node<T>;
 
-template<class T>
-class SingleLinkedList {
-public:
-	SingleLinkedList<T>() {
-		head = NULL;
-		size = 0;
+	if (head == NULL) {
+		head = newnode;
 	}
-	//insert at the end of the list
-	void append(T data) {
-		Node<T> *newnode = getNode(data);
+	else {
+		Node<T> *temp = head;
+		while (temp->next != NULL) {
+			temp = temp->next;
+		}
+		temp->next = newnode;
+	}
+	size += 1;
+}
 
-		if (head == NULL) {
+template<class T>
+void SingleLinkedList<T>::insert(T data) {
+	//Node<T>* newnode = getNode(data);
+	Node<T>* newnode = new Node<T>;
+
+	if (head == NULL) {
+		head = newnode;
+	}
+	else {
+		Node<T>* temp;
+		temp = newnode;
+		temp->next = head;
+		head = newnode;
+	}
+	size += 1;
+}
+
+template<class T>
+void SingleLinkedList<T>::insertAt(T data, int index) {
+	if (index < 0 || index > size + 1) {
+		cout << "Element cannot be inserted at this position as the location is invalid";
+	}
+	else {
+		//Node<T> *newnode = getNode(data);
+
+		Node<T>* newnode = new Node<T>;
+
+		newnode->data = data;
+
+		if (index == 0) {
+			newnode->next = head;
 			head = newnode;
 		}
 		else {
-			Node<T> *temp = head;
-			while (temp->next != NULL) {
+			Node<T> temp;
+			int count = 1;
+			temp = head;
+			while (count != index) {
 				temp = temp->next;
+				count++;
 			}
+			newnode->next = temp->next;
 			temp->next = newnode;
 		}
-		size += 1;
 	}
-	//insert at front of the list
-	void insert(T data) {
-		Node<T> *newnode = getNode(data);
+}
 
-		if (head == NULL) {
-			head = newnode;
-		}
-		else {
-			Node<T> *temp;
-			temp = newnode;
-			temp->next = head;
-			head = newnode;
-		}
-		size += 1;
+template<class T>
+Node<T>* SingleLinkedList<T>::getStart()
+{
+	return head;
+}
+
+template<class T>
+void SingleLinkedList<T>::printList() {
+	Node<T> *temp = head;
+	if (head == NULL) {
+		std::cout << "List is empty" << std::endl;
 	}
-	//insert at a certain location in the list. shift remaining nodes to the right
-	void insertAt(T data, int index) {
-		if (index < 0 || index > size + 1) {
-			cout << "Element cannot be inserted at this position as the location is invalid";
-		}
-		else {
-			Node<T> *newnode = getNode(data);
+	else {
+		do {
+			std::cout << temp->data << std::endl <<std::flush;
+			temp = temp->next;
+		} while (temp != NULL);
+		std::cout << std::endl << std::flush;
+	}
+}
 
-			newnode->data = data;
 
-			if (index == 0) {
-				newnode->next = head;
-				head = newnode;
-			}
-			else {
-				Node<T> temp;
-				int count = 1;
-				temp = head;
-				while (count != index) {
-					temp = temp->next;
-					count++;
-				}
-				newnode->next = temp->next;
-				temp->next = newnode;
-			}
-		}
+template<typename T> void SingleLinkedList<T>::removeAt(int index) {
+	if (index < 0 || index > size + 1) {
+		std::cout << "Element cannot be inserted at this position as the location is invalid";
+	}
+	else {
 		
 	}
-	//print the list
-	void printList() {
-		Node<T> *temp = head;
-		if (head == NULL) {
-			cout << "List is empty" << endl;
+}
+
+
+template<typename T> void SingleLinkedList<T>::removeIf(T _data) {
+	Node<T> *temp = head;
+	
+	while (head->data == _data) {
+		head = head->next;
+		size -= 1;
+	}
+	while (temp->next != NULL) {
+		if (temp->next->data == _data) {
+			temp->next = temp->next->next;
+			size -= 1;
 		}
 		else {
-			do {
-				cout << temp->data << "\t";
-				temp = temp->next;
-			} while (temp != NULL);
-			cout << endl;
-		}
-	}
-	//remove all nodes that match a value TODO: add support for user defined classes
-	void remove(T data) {
-		Node<T> *temp = head;
-		Node<T> *prev = NULL;
-		while (temp) {
-			while (temp->data == data) {
-				Node<T> *old_temp = temp;
-				temp = temp->next;
-				if (old_temp == head) {
-					head = temp;
-				}
-				if (prev) {
-					prev->next = temp;
-				}
-				delete old_temp;
-			}
-			prev = temp;
 			temp = temp->next;
 		}
 	}
-	
-private:
-	Node<T> *getNode(T data) {
-		Node<T> *newnode;
+}
 
-		newnode = new Node<T>;
+template<class T>
+T SingleLinkedList<T>::operator[](int index) {
+	return T();
+}
 
-		newnode->data = data;
-		newnode->next = NULL;
+template<class T> Node<T>* SingleLinkedList<T>::getNode(T data) {
+	Node<T> *newnode;
 
-		return newnode;
-	}
+	newnode = new Node<T>;
 
-	Node<T> *head;
-	int size;
-};
+	newnode->data = data;
+	newnode->next = NULL;
+
+	return newnode;
+}
+
+void testForObj() {
+	Person p1;
+	Person p2 = Person("John", "Somewhere", 20);
+	Person p3 = Person("Jane", "Nowhere", 35);
+
+	SingleLinkedList<Person> list;
+
+	list.append(p1);
+	list.append(p2);
+	list.append(p3);
+	list.printList();
+	//std::cout << list[1] << std::endl << std::flush;
+	list.removeIf(Person("John", "Somewhere", 20)); //TODO: BUG here
+	list.printList();
+}
+void testForPrim() {
+
+	SingleLinkedList<int> listInt;
+	listInt.append(2);
+	listInt.append(2);
+	listInt.append(5);
+	listInt.printList();
+	listInt.append(4);
+	listInt.removeIf(2);
+	listInt.printList();
+}
 
 int main() {
-	SingleLinkedList<int> list;
-	list.append(2);
-	list.append(2);
-	list.insert(3);
-	list.append(5);
-	list.printList();
-	list.append(4);
-	list.insert(8);
-	list.remove(2);
-	list.remove(3);
-	list.remove(5);
-	list.printList();
+	testForObj();
+	
+	testForPrim();
 }
