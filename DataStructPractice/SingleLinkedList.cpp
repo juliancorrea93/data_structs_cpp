@@ -67,8 +67,6 @@ void SingleLinkedList<T>::insertAt(T data, int index) {
 }
 
 
-
-
 template<typename T> 
 void SingleLinkedList<T>::removeAt(int index) {
 	if (index < 0 || index > size + 1) {
@@ -107,7 +105,13 @@ void SingleLinkedList<T>::removeIf(T _data) {
 
 template<typename T>
 T SingleLinkedList<T>::operator[](int index) {
-	return T();
+	Node<T>* current = head;
+
+	while (current != nullptr && index > 0) {
+		current = current->next;
+		index--;
+	}
+	return current->data;
 }
 
 template<typename T>
@@ -181,7 +185,6 @@ void testForObj() {
 	list.pushBack(p2);
 	list.pushBack(p3);
 	print(list);
-	//std::cout << list[1] << std::endl << std::flush;
 	list.removeIf(Person("John", "Somewhere", 20)); //TODO: BUG here
 	print(list);
 }
