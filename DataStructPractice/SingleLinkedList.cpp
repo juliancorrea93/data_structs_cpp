@@ -17,7 +17,7 @@ void SingleLinkedList<T>::pushBack(T data) {
 		}
 		temp->next = newnode;
 	}
-	size += 1;
+	size++;
 }
 
 template<typename T>
@@ -33,13 +33,13 @@ void SingleLinkedList<T>::pushFront(T data) {
 		temp->next = head;
 		head = newnode;
 	}
-	size += 1;
+	size++;
 }
 
 template<typename T>
 void SingleLinkedList<T>::insertAt(T data, int index) {
 	if (index < 0 || index > size + 1) {
-		cout << "Element cannot be inserted at this position as the location is invalid";
+		std::cout << "Element cannot be inserted at this position as the location is invalid" << std::endl << std::flush;
 	}
 	else {
 		//Node<T> *newnode = getNode(data);
@@ -53,7 +53,7 @@ void SingleLinkedList<T>::insertAt(T data, int index) {
 			head = newnode;
 		}
 		else {
-			Node<T> temp;
+			Node<T> *temp;
 			int count = 1;
 			temp = head;
 			while (count != index) {
@@ -63,6 +63,7 @@ void SingleLinkedList<T>::insertAt(T data, int index) {
 			newnode->next = temp->next;
 			temp->next = newnode;
 		}
+		size++;
 	}
 }
 
@@ -74,10 +75,21 @@ void SingleLinkedList<T>::removeAt(int index) {
 	}
 	else {
 		Node<T> *temp = head;
-		while (index > 0) {
-			temp = temp->next;
+		Node<T> *prev = temp;
+		if (index == 0 && size > 0) {
+			head = temp->next;
 		}
-		//remove element and check for end of list
+		else {
+			while (index > 0) {
+				prev = temp;
+				temp = temp->next;
+				index--;
+			}
+			prev->next = temp->next;
+		}
+		
+		delete temp;
+		size--;
 	}
 }
 
@@ -87,7 +99,7 @@ void SingleLinkedList<T>::removeIf(T _data) {
 	
 	while (head->data == _data) {
 		head = head->next;
-		size -= 1;
+		size--;
 	}
 
 	Node<T> *temp = head;
@@ -95,7 +107,7 @@ void SingleLinkedList<T>::removeIf(T _data) {
 	while (temp->next != nullptr) {
 		if (temp->next->data == _data) {
 			temp->next = temp->next->next;
-			size -= 1;
+			size--;
 		}
 		else {
 			temp = temp->next;
@@ -118,6 +130,12 @@ template<typename T>
 Node<T>* SingleLinkedList<T>::getFront() const
 {
 	return head;
+}
+
+template<typename T>
+std::size_t SingleLinkedList<T>::getSize() const
+{
+	return size;
 }
 
 template<typename T> 
@@ -162,6 +180,7 @@ template<typename T>
 void print(SingleLinkedList<T> list) {
 	Node<T> *temp = list.getFront();
 	if (temp == nullptr) {
+		std::cout << "here" << std::endl;
 		std::cout << "List is empty" << std::endl << std::flush;
 	}
 	else {
@@ -170,6 +189,7 @@ void print(SingleLinkedList<T> list) {
 			std::cout << temp->data << std::endl << std::flush;
 			temp = temp->next;
 		}
+		std::cout << "List size is: " << list.getSize() << std::endl << std::flush;
 		std::cout << "-----END OF LIST-----" << std::endl << std::flush;
 	}
 }
@@ -180,12 +200,15 @@ void testForObj() {
 	Person p3 = Person("Jane", "Nowhere", 35);
 
 	SingleLinkedList<Person> list;
-
+	//print(list);BUG HERE
 	list.pushBack(p1);
 	list.pushBack(p2);
 	list.pushBack(p3);
+	list.pushFront(Person("Arelly", "Somewhere", 22));
 	print(list);
-	list.removeIf(Person("John", "Somewhere", 20)); //TODO: BUG here
+	list.removeIf(Person("John", "Somewhere", 20));
+	list.removeAt(1);
+	list.removeAt(0);
 	print(list);
 }
 void testForPrim() {
@@ -193,10 +216,11 @@ void testForPrim() {
 	SingleLinkedList<int> listInt;
 	listInt.pushBack(2);
 	listInt.pushBack(2);
+	listInt.pushFront(20);
 	listInt.pushBack(5);
-	//print(listInt);
 	listInt.pushBack(4);
-
+	listInt.insertAt(1, 44);
+	listInt.removeAt(0);
 	listInt.removeIf(2);
 	
 	print(listInt);

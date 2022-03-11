@@ -16,7 +16,7 @@ class SingleLinkedList {
 public:
 	SingleLinkedList() :
 		head(nullptr),
-		size(0)
+		size()
 	{}
 	void pushBack(T data);
 	void pushFront(T data);
@@ -25,6 +25,7 @@ public:
 	void removeIf(T _data);
 	T operator[](int index);
 	Node<T>* getFront() const;
+	std::size_t getSize() const;
 	SingleLinkedList(const SingleLinkedList &obj);
 	~SingleLinkedList();
 
