@@ -6,9 +6,11 @@ class Person {
 public:
 	Person();
 	Person(std::string, std::string, int);
-	std::string getName();
-	int getAge();
-	std::string getAddress();
+	Person(const Person &obj);
+	std::string getName() const;
+	int getAge() const;
+	std::string getAddress() const;
+	//~Person();
 
 private:
 	std::string name;

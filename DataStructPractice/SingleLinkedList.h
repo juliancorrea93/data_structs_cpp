@@ -1,38 +1,39 @@
 #pragma once
 #include <iostream>
+#include <utility>
+#include <memory>
 //#include "..\cryptopp850\sha3.h"
 
-template<class T>
+template<typename T>
 struct Node {
-	//Node();
-	//Node(Node<T> *nextNode,T wrappedData);
-	Node<T>* next;
+	Node<T> *next;
+	//std::unique_ptr<Node<T>> next;
 	T data;
 };
 
-template<class T>
+template<typename T>
 class SingleLinkedList {
 public:
-	SingleLinkedList();
-	//insert at the end of the list
-	void append(T data);
-	//insert at front of the list
-	void insert(T data);
-	//insert at a certain location in the list. shift remaining nodes to the right
+	SingleLinkedList() :
+		head(nullptr),
+		size(0)
+	{}
+	void pushBack(T data);
+	void pushFront(T data);
 	void insertAt(T data, int index);
-	Node<T>* getStart();
-	//print the list
-	void printList();
-	//remove all nodes that match a value TODO: add support for user defined classes
 	void removeAt(int index);
 	void removeIf(T _data);
 	T operator[](int index);
-	//~SingleLinkedList();
+	Node<T>* getFront() const;
+	SingleLinkedList(const SingleLinkedList &obj);
+	~SingleLinkedList();
 
 private:
 	Node<T>* getNode(T data);
 
-	Node<T>* head;
+	Node<T> *head;
+	//std::unique_ptr<Node<T>> head;
+	
 	std::size_t size;
 };
 

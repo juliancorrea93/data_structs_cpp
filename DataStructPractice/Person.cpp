@@ -4,7 +4,7 @@
 
 
 std::ostream& operator<<(std::ostream& os, Person person) {
-	os << "Name: " << person.getName() << ", Age: " << person.getAge() << ", Address: " << person.getAddress();
+	os << "Name: " << person.getName() << ", Age: " << person.getAge() << ", Address: " << person.getAddress() << std::endl;
 	return os;
 }
 
@@ -31,17 +31,33 @@ Person::Person(std::string _name, std::string _address, int _age)
 	age = _age;
 }
 
-std::string Person::getName()
+Person::Person(const Person &obj)
+{
+	name = obj.getName();
+	address = obj.getAddress();
+	age = obj.getAge();
+}
+
+std::string Person::getName() const
 {
 	return name;
 }
 
-int Person::getAge()
+int Person::getAge() const
 {
 	return age;
 }
 
-std::string Person::getAddress()
+std::string Person::getAddress() const
 {
 	return address;
 }
+
+/*Person::~Person()
+{
+	delete &age;
+	delete &name;
+	delete &address;
+}
+*/
+

@@ -3,24 +3,16 @@
 #include "Person.h"
 #include "SingleLinkedList.h"
 
+template<typename T>
+void SingleLinkedList<T>::pushBack(T data) {
+	Node<T>* newnode = getNode(std::move(data));
 
-
-template<class T> SingleLinkedList<T>::SingleLinkedList() : 
-	head(nullptr),
-	size(0) {
-}
-
-template<class T>
-void SingleLinkedList<T>::append(T data) {
-	Node<T>* newnode = getNode(data);
-	//Node<T>* newnode = new Node<T>;
-
-	if (head == NULL) {
+	if (head == nullptr) {
 		head = newnode;
 	}
 	else {
 		Node<T> *temp = head;
-		while (temp->next != NULL) {
+		while (temp->next != nullptr) {
 			temp = temp->next;
 		}
 		temp->next = newnode;
@@ -28,12 +20,11 @@ void SingleLinkedList<T>::append(T data) {
 	size += 1;
 }
 
-template<class T>
-void SingleLinkedList<T>::insert(T data) {
-	//Node<T>* newnode = getNode(data);
-	Node<T>* newnode = new Node<T>;
+template<typename T>
+void SingleLinkedList<T>::pushFront(T data) {
+	Node<T>* newnode = getNode(std::move(data));
 
-	if (head == NULL) {
+	if (head == nullptr) {
 		head = newnode;
 	}
 	else {
@@ -45,7 +36,7 @@ void SingleLinkedList<T>::insert(T data) {
 	size += 1;
 }
 
-template<class T>
+template<typename T>
 void SingleLinkedList<T>::insertAt(T data, int index) {
 	if (index < 0 || index > size + 1) {
 		cout << "Element cannot be inserted at this position as the location is invalid";
@@ -75,46 +66,35 @@ void SingleLinkedList<T>::insertAt(T data, int index) {
 	}
 }
 
-template<class T>
-Node<T>* SingleLinkedList<T>::getStart()
-{
-	return head;
-}
-
-template<class T>
-void SingleLinkedList<T>::printList() {
-	Node<T> *temp = head;
-	if (head == NULL) {
-		std::cout << "List is empty" << std::endl;
-	}
-	else {
-		do {
-			std::cout << temp->data << std::endl <<std::flush;
-			temp = temp->next;
-		} while (temp != NULL);
-		std::cout << std::endl << std::flush;
-	}
-}
 
 
-template<typename T> void SingleLinkedList<T>::removeAt(int index) {
+
+template<typename T> 
+void SingleLinkedList<T>::removeAt(int index) {
 	if (index < 0 || index > size + 1) {
 		std::cout << "Element cannot be inserted at this position as the location is invalid";
 	}
 	else {
-		
+		Node<T> *temp = head;
+		while (index > 0) {
+			temp = temp->next;
+		}
+		//remove element and check for end of list
 	}
 }
 
 
-template<typename T> void SingleLinkedList<T>::removeIf(T _data) {
-	Node<T> *temp = head;
+template<typename T> 
+void SingleLinkedList<T>::removeIf(T _data) {
 	
 	while (head->data == _data) {
 		head = head->next;
 		size -= 1;
 	}
-	while (temp->next != NULL) {
+
+	Node<T> *temp = head;
+
+	while (temp->next != nullptr) {
 		if (temp->next->data == _data) {
 			temp->next = temp->next->next;
 			size -= 1;
@@ -125,20 +105,69 @@ template<typename T> void SingleLinkedList<T>::removeIf(T _data) {
 	}
 }
 
-template<class T>
+template<typename T>
 T SingleLinkedList<T>::operator[](int index) {
 	return T();
 }
 
-template<class T> Node<T>* SingleLinkedList<T>::getNode(T data) {
+template<typename T>
+Node<T>* SingleLinkedList<T>::getFront() const
+{
+	return head;
+}
+
+template<typename T> 
+Node<T>* SingleLinkedList<T>::getNode(T data) {
 	Node<T> *newnode;
 
 	newnode = new Node<T>;
 
-	newnode->data = data;
-	newnode->next = NULL;
+	newnode->data = std::move(data);
+	newnode->next = nullptr;
 
 	return newnode;
+}
+
+template<typename T>
+SingleLinkedList<T>::~SingleLinkedList()
+{
+	Node<T>* current = head;
+
+	while (current != nullptr) {
+		
+		Node<T>* next_node = current->next;
+		delete current;
+		current = next_node;
+	}
+	
+}
+
+template<typename T>
+SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T> &obj)
+{
+	Node<T> *current = obj.getFront();
+	Node<T> *newnode = getNode(current->data);
+	head = newnode;
+	while (current->next != nullptr) {
+		pushBack(current->next->data);
+		current = current->next;
+	}
+}
+
+template<typename T>
+void print(SingleLinkedList<T> list) {
+	Node<T> *temp = list.getFront();
+	if (temp == nullptr) {
+		std::cout << "List is empty" << std::endl << std::flush;
+	}
+	else {
+		std::cout << "-----PRINTING LIST-----" << std::endl << std::flush;
+		while (temp != nullptr) {
+			std::cout << temp->data << std::endl << std::flush;
+			temp = temp->next;
+		}
+		std::cout << "-----END OF LIST-----" << std::endl << std::flush;
+	}
 }
 
 void testForObj() {
@@ -148,28 +177,31 @@ void testForObj() {
 
 	SingleLinkedList<Person> list;
 
-	list.append(p1);
-	list.append(p2);
-	list.append(p3);
-	list.printList();
+	list.pushBack(p1);
+	list.pushBack(p2);
+	list.pushBack(p3);
+	print(list);
 	//std::cout << list[1] << std::endl << std::flush;
 	list.removeIf(Person("John", "Somewhere", 20)); //TODO: BUG here
-	list.printList();
+	print(list);
 }
 void testForPrim() {
 
 	SingleLinkedList<int> listInt;
-	listInt.append(2);
-	listInt.append(2);
-	listInt.append(5);
-	listInt.printList();
-	listInt.append(4);
+	listInt.pushBack(2);
+	listInt.pushBack(2);
+	listInt.pushBack(5);
+	//print(listInt);
+	listInt.pushBack(4);
+
 	listInt.removeIf(2);
-	listInt.printList();
+	
+	print(listInt);
 }
 
 int main() {
 	testForObj();
 	
 	testForPrim();
+	
 }
