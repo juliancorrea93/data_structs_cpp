@@ -116,15 +116,25 @@ void SingleLinkedList<T>::removeIf(T _data) {
 }
 
 template<typename T>
-T SingleLinkedList<T>::operator[](int index) {
-	Node<T>* current = head;
-
-	while (current != nullptr && index > 0) {
-		current = current->next;
-		index--;
+void SingleLinkedList<T>::print()
+{
+	Node<T> *temp = head;
+	if (size == 0) {
+		std::cout << "here" << std::endl;
+		std::cout << "List is empty" << std::endl << std::flush;
 	}
-	return current->data;
+	else {
+		std::cout << "-----PRINTING LIST-----" << std::endl << std::flush;
+		while (temp != nullptr) {
+			std::cout << temp->data << std::endl << std::flush;
+			temp = temp->next;
+		}
+		std::cout << "List size is: " << size << std::endl << std::flush;
+		std::cout << "-----END OF LIST-----" << std::endl << std::flush;
+	}
 }
+
+
 
 template<typename T>
 Node<T>* SingleLinkedList<T>::getFront() const
@@ -174,24 +184,20 @@ SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T> &obj)
 		pushBack(current->next->data);
 		current = current->next;
 	}
+	size = obj.size;
 }
 
+
+
 template<typename T>
-void print(SingleLinkedList<T> list) {
-	Node<T> *temp = list.getFront();
-	if (temp == nullptr) {
-		std::cout << "here" << std::endl;
-		std::cout << "List is empty" << std::endl << std::flush;
+T SingleLinkedList<T>::operator[](int index) {
+	Node<T>* current = head;
+
+	while (current != nullptr && index > 0) {
+		current = current->next;
+		index--;
 	}
-	else {
-		std::cout << "-----PRINTING LIST-----" << std::endl << std::flush;
-		while (temp != nullptr) {
-			std::cout << temp->data << std::endl << std::flush;
-			temp = temp->next;
-		}
-		std::cout << "List size is: " << list.getSize() << std::endl << std::flush;
-		std::cout << "-----END OF LIST-----" << std::endl << std::flush;
-	}
+	return current->data;
 }
 
 void testForObj() {
@@ -200,16 +206,16 @@ void testForObj() {
 	Person p3 = Person("Jane", "Nowhere", 35);
 
 	SingleLinkedList<Person> list;
-	//print(list);BUG HERE
+	list.print();
 	list.pushBack(p1);
 	list.pushBack(p2);
 	list.pushBack(p3);
 	list.pushFront(Person("Arelly", "Somewhere", 22));
-	print(list);
+	list.print();
 	list.removeIf(Person("John", "Somewhere", 20));
 	list.removeAt(1);
 	list.removeAt(0);
-	print(list);
+	list.print();
 }
 void testForPrim() {
 
@@ -219,11 +225,10 @@ void testForPrim() {
 	listInt.pushFront(20);
 	listInt.pushBack(5);
 	listInt.pushBack(4);
-	listInt.insertAt(1, 44);
+	listInt.insertAt(44, 1);
 	listInt.removeAt(0);
 	listInt.removeIf(2);
-	
-	print(listInt);
+	listInt.print();
 }
 
 int main() {

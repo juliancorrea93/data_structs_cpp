@@ -23,6 +23,7 @@ public:
 	void insertAt(T data, int index);
 	void removeAt(int index);
 	void removeIf(T _data);
+	void print();
 	T operator[](int index);
 	Node<T>* getFront() const;
 	std::size_t getSize() const;
@@ -37,5 +38,3 @@ private:
 	
 	std::size_t size;
 };
-
-

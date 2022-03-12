@@ -40,7 +40,7 @@ Person::Person(const Person &obj)
 
 std::string Person::getName() const
 {
-	return name;
+	return std::move(name);
 }
 
 int Person::getAge() const
