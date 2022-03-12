@@ -142,10 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HashTable.cpp" />
+    <ClCompile Include="KeyValue.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="SingleLinkedList.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HashTable.h" />
+    <ClInclude Include="KeyValue.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="SingleLinkedList.h" />
