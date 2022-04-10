@@ -2,8 +2,6 @@
 #include <vector>
 #include <bitset>
 #include <\Users\Julian\Documents\Visual Studio 2015\Projects\DataStructPractice\DataStructPractice\KeyValue.h>
-#include "..\cryptopp850\sha.h"
-#include "..\cryptopp850\hex.h"
 #include <iostream>
 
 
@@ -17,10 +15,10 @@ public:
 	void remove(std::string key, std::string value);
 	std::string get(std::string key);
 	void print();
-	std::string testHash(std::string key);
+	//std::hash<std::string> testHash(std::string key);
 	
 private:
-	std::string hash(std::string key);
+	//std::hash<std::string> hash(std::string key);
 	//std::bitset<8> to_binary(char const &c);
 	bool is_full();
 	void double_size();

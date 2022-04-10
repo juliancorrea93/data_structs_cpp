@@ -134,8 +134,6 @@ void SingleLinkedList<T>::print()
 	}
 }
 
-
-
 template<typename T>
 Node<T>* SingleLinkedList<T>::getFront() const
 {
@@ -231,7 +229,7 @@ void testForPrim() {
 	listInt.print();
 }
 
-int main() {
+void tests() {
 	testForObj();
 	
 	testForPrim();

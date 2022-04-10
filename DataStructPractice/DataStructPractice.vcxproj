@@ -142,17 +142,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryTree.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="KeyValue.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="SingleLinkedList.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="KeyValue.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Person.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SingleLinkedList.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DataStructPractice.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

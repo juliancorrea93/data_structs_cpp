@@ -26,26 +26,19 @@ std::bitset<8> HashTable<T>::to_binary(char const & c)
 }
 */
 
+/*
 template<typename T>
-std::string HashTable<T>::hash(std::string key)
+std::hash<std::string> HashTable<T>::hash(std::string key)
 {
-	CryptoPP::SHA256 _hash;
-	unsigned char digest[CryptoPP::SHA256::DIGESTSIZE];
-	_hash.CalculateDigest(digest, (unsigned char*)key.c_str(), key.length());
-	CryptoPP::HexEncoder encoder;
-	std::string output;
-	encoder.Attach(new CryptoPP::StringSink(output));
-	encoder.Put(digest, sizeof(digest));
-	encoder.MessageEnd();
-	return output;
+	return std::hash<std::string>(key);
 }
 
 template<typename T>
-std::string HashTable<T>::testHash(std::string key)
+std::hash<std::string> HashTable<T>::testHash(std::string key)
 {
 	return hash(key);
 }
-
+*/
 
 template<typename T>
 void HashTable<T>::add(std::string key, std::string value)
@@ -81,7 +74,7 @@ void HashTable<T>::double_size()
 	table = doubled;
 }
 
-int main() {
+void tests_for_hash() {
 	HashTable<int> ht;
-	std::cout << ht.testHash("Fuck");
+	//std::cout << ht.testHash("Fuck");
 }
